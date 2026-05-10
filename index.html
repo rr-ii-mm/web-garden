@@ -21,19 +21,16 @@
 <div class="secondary">
 <span id="datetime"></span><br>
 Last update: May. 10. 2026
-<!-- <u><a href="https://www.instagram.com/h__erin/">@hyerimhong</a></u> -->
+<u><a href="https://www.instagram.com/h__erin/">@hyerimhong</a></u>
 </div>
 
 </div>
 <div id="header-space"></div>
-<img id="floater" src="assets/img/addimg.png">
-
 <p2>
 	<img src="assets/img/20200621.JPG">
 	<img src="assets/img/20200621_path.JPG">
 	<img src="assets/img/20221013.JPG">
 	<img src="assets/img/20250916.JPG">
-	<img src="assets/img/20251109.JPG">
 	<img src="assets/img/IMG_5571.jpg">
 	<img src="assets/img/IMG_5592.JPG">
 	<img src="assets/img/IMG_5595.JPG">
@@ -51,7 +48,7 @@ Last update: May. 10. 2026
 	<img src="assets/img/IMG_6805.JPG">
 	<img src="assets/img/IMG_6826.JPG">
 	<img src="assets/img/IMG_6831.JPG">
-	<img src="assets/img/IMG_7034.JPG">
+	<img src="assets/img/20250603.jpg">
 	<img src="assets/img/IMG_7081.JPG">
 	<img src="assets/img/IMG_7374.JPG">
 	<img src="assets/img/IMG_7423.JPG">
@@ -89,6 +86,7 @@ Last update: May. 10. 2026
 	<img src="assets/img/20200725.JPG">
 	<img src="assets/img/20200731.JPG">
 	<img src="assets/img/20201107.jpg">
+	<img src="assets/img/20201108.jpg">
 	<img src="assets/img/20210405.jpg">
 	<img src="assets/img/20210407.jpg">
 	<img src="assets/img/20210422.jpg">
@@ -117,6 +115,7 @@ Last update: May. 10. 2026
 	<img src="assets/img/20240510_fromrosehill.jpg">
 	<img src="assets/img/20240513.jpg">
 	<img src="assets/img/20240513_gianttree.jpg">
+	<img src="assets/img/20240801.jpg">
 	<img src="assets/img/20240831.jpg">
 	<img src="assets/img/20241109.jpg">
 	<img src="assets/img/20241109_pot.jpg">
@@ -139,6 +138,8 @@ Last update: May. 10. 2026
 
 
 <script>
+    let userCountry = '';
+
     function updateTime() {
         const now = new Date();
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -148,9 +149,19 @@ Last update: May. 10. 2026
         const year = now.getFullYear();
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
+        const countryStr = userCountry ? `, ${userCountry}` : '';
         document.getElementById('datetime').textContent =
-            `${month}. ${day}. ${year}. ${hours}:${minutes}`;
+            `${month}. ${day}. ${year}. ${hours}:${minutes}${countryStr}`;
     }
+
+    fetch('https://ipapi.co/json/')
+        .then(r => r.json())
+        .then(data => {
+            userCountry = data.country_name || '';
+            updateTime();
+        })
+        .catch(() => {});
+
     updateTime();
     setInterval(updateTime, 60000);
 
@@ -163,42 +174,6 @@ Last update: May. 10. 2026
     }
     updateHeaderSpace();
     window.addEventListener('resize', updateHeaderSpace);
-
-    (function () {
-        const el = document.getElementById('floater');
-        let x = window.innerWidth * 0.4;
-        let y = window.innerHeight * 0.6;
-        let vx = (Math.random() - 0.5) * 0.6;
-        let vy = (Math.random() - 0.5) * 0.6;
-        const maxSpeed = 0.7;
-        const minSpeed = 0.2;
-
-        function tick() {
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            const s = el.offsetWidth || 80;
-
-            vx += (Math.random() - 0.5) * 0.025;
-            vy += (Math.random() - 0.5) * 0.025;
-
-            const spd = Math.sqrt(vx * vx + vy * vy);
-            if (spd > maxSpeed) { vx = vx / spd * maxSpeed; vy = vy / spd * maxSpeed; }
-            if (spd < minSpeed) { vx = vx / spd * minSpeed; vy = vy / spd * minSpeed; }
-
-            x += vx;
-            y += vy;
-
-            if (x < 0)     { x = 0;     vx = Math.abs(vx); }
-            if (x > w - s) { x = w - s; vx = -Math.abs(vx); }
-            if (y < 0)     { y = 0;     vy = Math.abs(vy); }
-            if (y > h - s) { y = h - s; vy = -Math.abs(vy); }
-
-            el.style.transform = `translate(${x}px, ${y}px)`;
-            requestAnimationFrame(tick);
-        }
-
-        tick();
-    })();
 
     function fitImagesToViewport() {
         const container = document.querySelector('p2');
