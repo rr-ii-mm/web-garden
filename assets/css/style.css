@@ -12,45 +12,89 @@
 }
 
 body {
-    margin: 30px;
-    width: calc(100vw - 60px);
-    max-width: 1920px;
-    min-width: 680px;
-    min-height: calc(100vh - 60px);
+    margin: 20px;
+    width: calc(100vw - 50px);
+    /* max-width: 1920px; */
+    min-height: calc(100vh - 50px);
     font-family: "Pretendard Variable", "Apple SD Gothic Neo", sans-serif;
     font-weight: 200;
-    line-height: 25px;
+    line-height: 0.75;
     word-break: keep-all;
-    font-size: 33px;
+    font-size: clamp(16px, 8vw, 44px);
     text-align: center;
     color: rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     align-items: center;
-    -webkit-text-stroke: 0.075em black;
+    -webkit-text-stroke: 0.11em black;
+    stroke-linejoin: round;
+    stroke-linecap: round;
 }
 
 p2 {
     flex: 1;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     justify-content: center;
-    align-items: flex-end;
-    align-content: flex-end;
+    align-items: flex-start;
+    align-content: flex-start;
     width: 100%;
-    gap: 2px;
-    padding-bottom: 40px;
+    min-width: 680px;
+    gap: 3px;
+    /* padding-bottom: 20px; */
+}
+
+#header {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100vw;
+    text-align: center;
+    z-index: 10;
+    padding: 0 20px;
+}
+
+#title {
+    display: block;
+}
+
+.secondary {
+    font-size: 0.6em;
+    -webkit-text-stroke: 0.06em black;
+    margin-top: 1.3em;
+}
+
+#datetime {
+    display: block;
+}
+
+#floater {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 80px;
+    height: auto;
+    z-index: 6;
+    pointer-events: none;
+    will-change: transform;
+    -webkit-text-stroke: 0;
+}
+
+@media (max-width: 680px) {
+    p2 {
+        min-width: unset;
+    }
 }
 
 img {
-    width: clamp(45px, 9vw, 135px);
-    height: clamp(45px, 9vw, 135px);
+    height: clamp(34px, 6.8vw, 102px);
+    aspect-ratio: 5 / 6;
     object-fit: cover;
     -webkit-text-stroke: 0;
 }
 
 img:hover {
-    width: auto;
+    aspect-ratio: auto;
 }
 
 a {
@@ -61,12 +105,3 @@ a:hover {
     color: #4bc353;
 }
 
-footer {
-    font-size: 12px;
-    position: fixed;
-    bottom: 10px;
-    width: 100%;
-    text-align: center;
-    transform: skewX(-18deg);
-    transform-origin: bottom center;
-}
