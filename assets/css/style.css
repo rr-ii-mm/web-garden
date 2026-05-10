@@ -64,11 +64,21 @@ p2 {
     letter-spacing: 0.04em;
 }
 
+.interaction {
+    margin-top: 0.6em;
+    line-height: 1.1;
+    -webkit-text-stroke: 0.08em black;
+}
+
 .secondary {
     font-size: 0.6em;
     line-height: 1.2;
     -webkit-text-stroke: 0.08em black;
     margin-top: 1.3em;
+}
+
+a:hover {
+    transform: skewX(-10deg);
 }
 
 /* #datetime {
@@ -97,11 +107,5 @@ img:hover {
     cursor: pointer;
 }
 
-a {
-    color: rgb(0, 0, 0);
-}
 
-a:hover {
-    color: #4bc353;
-}
 

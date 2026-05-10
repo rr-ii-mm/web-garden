@@ -216,6 +216,13 @@ Last update: May. 10. 2026
     window.addEventListener('load', fitImagesToViewport);
     window.addEventListener('resize', fitImagesToViewport);
 
+    document.addEventListener('error', function (e) {
+        if (e.target.tagName === 'IMG' && !e.target.dataset.fallback) {
+            e.target.dataset.fallback = '1';
+            e.target.src = 'assets/img/planb-img.png';
+        }
+    }, true);
+
     document.getElementById('share').addEventListener('click', () => {
         document.getElementById('plant-upload').click();
     });
