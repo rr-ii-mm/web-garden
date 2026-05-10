@@ -16,7 +16,12 @@
 <body>
 
 <div id="header">
-<span id="title">Welcome to Web Garden</span>
+<span id="title">Welcome to <wbr>Web Garden!</span>
+
+<div class="interaction">
+<span id="share"><u>You can share <wbr>your plants as well</u></span><br>
+<input type="file" id="plant-upload" accept="image/*" multiple style="display:none">
+</div>
 
 <div class="secondary">
 <span id="datetime"></span><br>
@@ -78,9 +83,9 @@ Last update: May. 10. 2026
 	<img src="assets/img/P20180418_121030373_E2BA8750-BB38-4AE9-A2A4-82F176C58749.jpg">
 	<img src="assets/img/P20180419_182412166_27DC5964-8E00-46E5-9E80-6CD2DC241A55.JPG">
 	<img src="assets/img/P20180421_202021215_307A8C34-D567-4422-80BD-B5F0FE7C562B.JPG">
-	<img src="assets/img/20200216.JPG">
+	<img src="assets/img/20200216.jpg">
 	<img src="assets/img/20200412_pedals.jpg">
-	<img src="assets/img/20200701.JPG">
+	<img src="assets/img/20200701.jpg">
 	<img src="assets/img/20200712.jpg">
 	<img src="assets/img/20200722.JPG">
 	<img src="assets/img/20200725.JPG">
@@ -104,7 +109,7 @@ Last update: May. 10. 2026
 	<img src="assets/img/20220821.JPG">
 	<img src="assets/img/20221011.jpg">
 	<img src="assets/img/20230126.jpg">
-	<img src="assets/img/20230807.JPG">
+	<img src="assets/img/20230807.jpg">
 	<img src="assets/img/20230808.jpg">
 	<img src="assets/img/20230808_12-22.jpg">
 	<img src="assets/img/20231015_acorns.jpg">
@@ -210,6 +215,21 @@ Last update: May. 10. 2026
 
     window.addEventListener('load', fitImagesToViewport);
     window.addEventListener('resize', fitImagesToViewport);
+
+    document.getElementById('share').addEventListener('click', () => {
+        document.getElementById('plant-upload').click();
+    });
+
+    document.getElementById('plant-upload').addEventListener('change', function () {
+        const container = document.querySelector('p2');
+        Array.from(this.files).forEach(file => {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            container.appendChild(img);
+        });
+        fitImagesToViewport();
+        this.value = '';
+    });
 </script>
 
 </body>

@@ -5,6 +5,10 @@
     font-style: normal;
 }
 
+:root {
+    --mg: clamp(12px, 2vw, 28px);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -12,10 +16,10 @@
 }
 
 body {
-    margin: 20px;
-    width: calc(100vw - 50px);
+    margin: var(--mg);
+    width: calc(100vw - var(--mg) * 2);
     /* max-width: 1920px; */
-    min-height: calc(100vh - 50px);
+    min-height: calc(100vh - var(--mg) * 2);
     font-family: "Pretendard Variable", "Apple SD Gothic Neo", sans-serif;
     font-weight: 200;
     word-break: keep-all;
@@ -45,12 +49,12 @@ p2 {
 
 #header {
     position: fixed;
-    top: 20px;
+    top: var(--mg);
     left: 0;
     width: 100vw;
     text-align: center;
     z-index: 10;
-    padding: 0 20px;
+    padding: 0 var(--mg);
 }
 
 #title {
@@ -87,6 +91,10 @@ img {
 
 img:hover {
     aspect-ratio: auto;
+}
+
+#share {
+    cursor: pointer;
 }
 
 a {
