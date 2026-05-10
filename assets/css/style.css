@@ -1,0 +1,62 @@
+		*{
+ margin : 0;
+ padding: 0px;
+ box-sizing: border-box;
+}
+
+body {
+    margin: 30px;
+    position: relative;
+    width: calc(100vw - 60px);
+    max-width: 1920px;
+    min-width: 680px;
+    font-family: "pretendard Neue", "Apple SD Gothic Neo", sans-serif;
+    line-height: 25px;
+    word-break: keep-all;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+}
+
+
+/*div,*/.happypigs {
+	animation: fadeIn 2s infinite;
+}
+      @Keyframes fadeIn {
+        10% { opacity: 0;}
+        100% { opacity: 1;}
+      }
+
+
+img {
+	height: 150px;
+	margin-bottom: -5px;
+/*	filter: grayscale(100%);	*/
+}
+
+
+/* img:hover {
+	height: 250px;
+	filter: none;
+} */
+
+
+
+a {
+	color: rgb(0, 0, 0);
+}
+
+
+
+a:hover {
+	color: #4bc353;
+}
+
+
+footer {
+	font-size: 12px;
+	position: fixed;
+/*	position: absolute;*/
+	bottom: 10px;
+	width:100%;
+/*	text-align: center;*/
+}
