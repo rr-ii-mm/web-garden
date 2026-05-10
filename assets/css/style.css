@@ -1,62 +1,72 @@
-		*{
- margin : 0;
- padding: 0px;
- box-sizing: border-box;
+@font-face {
+    font-family: "Pretendard Variable";
+    src: url("../fonts/PretendardVariable.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     margin: 30px;
-    position: relative;
     width: calc(100vw - 60px);
     max-width: 1920px;
     min-width: 680px;
-    font-family: "pretendard Neue", "Apple SD Gothic Neo", sans-serif;
+    min-height: calc(100vh - 60px);
+    font-family: "Pretendard Variable", "Apple SD Gothic Neo", sans-serif;
+    font-weight: 200;
     line-height: 25px;
     word-break: keep-all;
-    font-size: 20px;
+    font-size: 33px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-text-stroke: 0.075em black;
+}
+
+p2 {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: flex-end;
+    width: 100%;
+    gap: 2px;
+    padding-bottom: 40px;
+}
+
+img {
+    width: clamp(45px, 9vw, 135px);
+    height: clamp(45px, 9vw, 135px);
+    object-fit: cover;
+    -webkit-text-stroke: 0;
+}
+
+img:hover {
+    width: auto;
+}
+
+a {
     color: rgb(0, 0, 0);
 }
 
-
-/*div,*/.happypigs {
-	animation: fadeIn 2s infinite;
-}
-      @Keyframes fadeIn {
-        10% { opacity: 0;}
-        100% { opacity: 1;}
-      }
-
-
-img {
-	height: 150px;
-	margin-bottom: -5px;
-/*	filter: grayscale(100%);	*/
-}
-
-
-/* img:hover {
-	height: 250px;
-	filter: none;
-} */
-
-
-
-a {
-	color: rgb(0, 0, 0);
-}
-
-
-
 a:hover {
-	color: #4bc353;
+    color: #4bc353;
 }
-
 
 footer {
-	font-size: 12px;
-	position: fixed;
-/*	position: absolute;*/
-	bottom: 10px;
-	width:100%;
-/*	text-align: center;*/
+    font-size: 12px;
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    transform: skewX(-18deg);
+    transform-origin: bottom center;
 }
