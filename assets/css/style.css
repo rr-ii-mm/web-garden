@@ -44,8 +44,14 @@ p2 {
     width: 100%;
     min-width: 680px;
     gap: 3px;
-    /* padding-bottom: 20px; */
 }
+
+@media (max-width: 680px) {
+    p2 {
+        min-width: unset;
+    }
+}
+
 
 #header {
     position: fixed;
@@ -71,10 +77,22 @@ p2 {
 }
 
 .secondary {
+    margin-top: 1.3em;
     font-size: 0.6em;
     line-height: 1.2;
     -webkit-text-stroke: 0.08em black;
-    margin-top: 1.3em;
+}
+
+#last-update {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100vw;
+    z-index: 10;
+    font-size: 0.6em;
+    line-height: 1.2;
+    -webkit-text-stroke: 0.08em black;
+    text-align: center;
 }
 
 a:hover {
@@ -86,11 +104,6 @@ a:hover {
 } */
 
 
-@media (max-width: 680px) {
-    p2 {
-        min-width: unset;
-    }
-}
 
 img {
     height: clamp(32px, 7vw, 102px);
@@ -105,6 +118,11 @@ img:hover {
 
 #share {
     cursor: pointer;
+}
+
+#share:hover {
+    color: rgb(195, 195, 195);
+    -webkit-text-stroke-color: rgb(195, 195, 195;
 }
 
 
