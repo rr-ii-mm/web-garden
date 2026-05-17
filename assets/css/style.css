@@ -16,6 +16,7 @@
 }
 
 body {
+    overflow: hidden;
     margin: var(--mg);
     width: calc(100vw - var(--mg) * 2);
     /* max-width: 1920px; */
