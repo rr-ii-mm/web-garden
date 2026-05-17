@@ -29,27 +29,37 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    -webkit-text-stroke: 0.11em black;
+    -webkit-text-stroke: 0.12em black;
     stroke-linejoin: round;
     stroke-linecap: round;
 }
 
-p2 {
+#book {
     flex: 1;
     display: flex;
-    flex-wrap: wrap-reverse;
+    align-items: center;
     justify-content: center;
-    align-items: flex-start;
-    align-content: flex-start;
     width: 100%;
-    min-width: 680px;
-    gap: 3px;
+    cursor: pointer;
+    padding-bottom: 90px;
 }
 
-@media (max-width: 680px) {
-    p2 {
-        min-width: unset;
-    }
+#spread {
+    display: flex;
+    gap: 1px;
+}
+
+#spread img {
+    width: auto;
+    height: auto;
+    max-width: var(--img-max-w, 45vw);
+    max-height: var(--img-max-h, 60vh);
+    object-fit: initial;
+    aspect-ratio: auto;
+}
+
+#spread img:hover {
+    aspect-ratio: auto;
 }
 
 
@@ -72,8 +82,8 @@ p2 {
 
 .interaction {
     margin-top: 0.6em;
-    line-height: 1.1;
-    -webkit-text-stroke: 0.08em black;
+    line-height: 0.8;
+    -webkit-text-stroke: 0.085em black;
 }
 
 .secondary {
@@ -99,11 +109,6 @@ a:hover {
     transform: skewX(-10deg);
 }
 
-/* #datetime {
-    display: block;
-} */
-
-
 
 img {
     height: clamp(32px, 7vw, 102px);
@@ -120,9 +125,16 @@ img:hover {
     cursor: pointer;
 }
 
-#share:hover {
+#share:hover,
+#share:active {
     color: rgb(195, 195, 195);
-    -webkit-text-stroke-color: rgb(195, 195, 195;
+    -webkit-text-stroke-color: rgb(195, 195, 195);
+}
+
+@media (max-width: 680px) {
+    .title-line {
+        display: block;
+    }
 }
 
 
