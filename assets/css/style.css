@@ -85,6 +85,7 @@ body {
     margin-top: 0.6em;
     line-height: 0.8;
     -webkit-text-stroke: 0.085em black;
+    transform: skewX(-10deg);
 }
 
 .secondary {
