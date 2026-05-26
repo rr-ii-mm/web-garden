@@ -1,0 +1,158 @@
+@font-face {
+    font-family: "Pretendard Variable";
+    src: url("../fonts/PretendardVariable.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+:root {
+    --mg: clamp(12px, 2vw, 28px);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    margin: var(--mg);
+    width: calc(100vw - var(--mg) * 2);
+    /* max-width: 1920px; */
+    min-height: calc(100vh - var(--mg) * 2);
+    font-family: "Pretendard Variable";
+    font-weight: 100;
+    word-break: keep-all;
+    font-size: clamp(16px, 8vw, 44px);
+    text-align: center;
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    -webkit-text-stroke: 0.12em black;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+#book {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    padding-bottom: 90px;
+}
+
+#spread {
+    display: flex;
+    gap: 1px;
+}
+
+#spread img {
+    width: auto;
+    height: auto;
+    max-width: var(--img-max-w, 45vw);
+    max-height: var(--img-max-h, 60vh);
+    object-fit: initial;
+    aspect-ratio: auto;
+}
+
+#spread img:hover {
+    aspect-ratio: auto;
+}
+
+
+#header {
+    position: fixed;
+    top: var(--mg);
+    left: 0;
+    width: 100vw;
+    text-align: center;
+    z-index: 10;
+    padding: 0 var(--mg);
+}
+
+#title {
+    display: block;
+    line-height: 0.75;
+    transform: skewX(-10deg);
+    letter-spacing: 0.04em;
+}
+
+.interaction {
+    margin-top: 0.6em;
+    line-height: 0.8;
+    -webkit-text-stroke: 0.085em black;
+}
+
+.secondary {
+    margin-top: 1.3em;
+    font-size: 0.6em;
+    line-height: 1.2;
+    -webkit-text-stroke: 0.08em black;
+}
+
+#last-update {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100vw;
+    z-index: 10;
+    font-size: 0.6em;
+    line-height: 1.2;
+    -webkit-text-stroke: 0.08em black;
+    text-align: center;
+}
+
+a:hover {
+    transform: skewX(-10deg);
+}
+
+
+img {
+    height: clamp(32px, 7vw, 102px);
+    aspect-ratio: 5 / 6;
+    object-fit: cover;
+    -webkit-text-stroke: 0;
+}
+
+img:hover {
+    aspect-ratio: auto;
+}
+
+#uploaded-spread {
+    display: none;
+    width: var(--uploaded-w, 90vw);
+    height: var(--uploaded-h, 60vh);
+}
+
+#uploaded-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: auto;
+    object-fit: cover;
+}
+
+#share {
+    cursor: pointer;
+}
+
+#share:hover,
+#share:active {
+    color: rgb(195, 195, 195);
+    -webkit-text-stroke-color: rgb(195, 195, 195);
+}
+
+@media (max-width: 680px) {
+    .title-line {
+        display: block;
+    }
+}
+
+
+
