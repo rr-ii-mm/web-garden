@@ -140,7 +140,7 @@ Last update: May. 26. 2026<br>
     window.addEventListener('resize', updateHeaderSpace);
 
     // Book viewer
-    const regularImages = Array.from({length: 176}, (_, i) => `img${i + 1}.jpg`);
+    const regularImages = ['img0-1.jpg', 'img0-2.jpg', ...Array.from({length: 176}, (_, i) => `img${i + 1}.jpg`)];
     const uploadedImages = [];
     const REGULAR_PAGES = Math.ceil(regularImages.length / 2);
 
