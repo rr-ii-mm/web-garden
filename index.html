@@ -9,7 +9,7 @@
 	<meta property="og:image" content="">
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel="icon" type="image/png" href="">
+	<link rel="icon" type="image/png" href="assets/img/favicon.png">
 
 </head>
 
@@ -19,7 +19,7 @@
 <span id="title">Welcome to <span class="title-line">Web Garden</span></span>
 
 <div class="interaction">
-<span id="share"><u>You can share<wbr><span style="white-space:nowrap"> your plants as well</span></u></span><br>
+<span id="share"><u><span>You can share</span><wbr><span style="white-space:nowrap"> your plants as well</span></u></span><br>
 <input type="file" id="plant-upload" accept="image/*" multiple style="display:none">
 </div>
 
@@ -31,7 +31,7 @@
 <div id="header-space"></div>
 
 <div id="last-update">
-Last update: May. 18. 2026<br>
+Last update: Jul. 3. 2026<br>
 <u><a href="https://www.instagram.com/h__erin/">@hyerimhong</a></u>
 </div>
 
@@ -39,6 +39,12 @@ Last update: May. 18. 2026<br>
 	<div id="spread">
 		<img id="left-img" src="">
 		<img id="right-img" src="">
+	</div>
+	<div id="single-spread">
+		<img id="single-img" src="">
+	</div>
+	<div id="uploaded-spread">
+		<img id="uploaded-img" src="">
 	</div>
 </div>
 
@@ -116,11 +122,69 @@ Last update: May. 18. 2026<br>
     });
 
     document.getElementById('plant-upload').addEventListener('change', function () {
+        if (this.files.length === 0) return;
+        const firstNewPage = REGULAR_PAGES + uploadedImages.length;
         Array.from(this.files).forEach(file => {
-            images.push(URL.createObjectURL(file));
+            uploadedImages.push(URL.createObjectURL(file));
         });
         this.value = '';
+        showPage(firstNewPage);
     });
+
+    // Book viewer
+    const regularImages = Array.from({length: 179}, (_, i) => `img${i + 1}.jpg`);
+    // Pair img1-2, img3-4, ... in fixed ascending pairs (leftover odd one becomes a single
+    // full-canvas spread), then show the spreads highest-numbered first.
+    const regularSpreads = (() => {
+        const spreads = [];
+        for (let i = 0; i < regularImages.length; i += 2) {
+            if (i + 1 < regularImages.length) {
+                spreads.push({ type: 'pair', left: regularImages[i], right: regularImages[i + 1] });
+            } else {
+                spreads.push({ type: 'single', img: regularImages[i] });
+            }
+        }
+        return spreads.reverse();
+    })();
+    const uploadedImages = [];
+    const REGULAR_PAGES = regularSpreads.length;
+
+    function imgSrc(filename) {
+        return (filename.startsWith('blob:') || filename.startsWith('data:'))
+            ? filename
+            : 'assets/img/' + filename;
+    }
+
+    // Full-canvas pages (the lone single image, uploaded photos) are sized to match a real
+    // spread's rendered width/height. Since that normally only becomes known once an actual
+    // pair page has rendered (via the ResizeObserver below), pre-compute it here from a real
+    // pair's natural image dimensions so full-canvas pages are sized correctly even when one
+    // is the very first page shown.
+    function primeCanvasFrame() {
+        const pair = regularSpreads.find(function (s) { return s.type === 'pair'; });
+        if (!pair) return;
+        function loadImg(src) {
+            return new Promise(function (resolve) {
+                const im = new Image();
+                im.onload = function () { resolve(im); };
+                im.onerror = function () { resolve(null); };
+                im.src = src;
+            });
+        }
+        Promise.all([loadImg(imgSrc(pair.left)), loadImg(imgSrc(pair.right))]).then(function (imgs) {
+            const li = imgs[0], ri = imgs[1];
+            if (!li || !ri) return;
+            const maxW = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--img-max-w')) || 0;
+            const maxH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--img-max-h')) || 0;
+            function fit(img) {
+                const scale = Math.min(1, maxW / img.naturalWidth, maxH / img.naturalHeight);
+                return { w: img.naturalWidth * scale, h: img.naturalHeight * scale };
+            }
+            const L = fit(li), R = fit(ri);
+            document.documentElement.style.setProperty('--uploaded-w', Math.round(L.w + R.w + 1) + 'px');
+            document.documentElement.style.setProperty('--uploaded-h', Math.round(Math.max(L.h, R.h)) + 'px');
+        });
+    }
 
     function updateHeaderSpace() {
         const header = document.getElementById('header');
@@ -133,15 +197,6 @@ Last update: May. 18. 2026<br>
     updateHeaderSpace();
     window.addEventListener('resize', updateHeaderSpace);
 
-    // Book viewer
-    const images = Array.from({length: 176}, (_, i) => `img${i + 1}.jpg`);
-
-    function imgSrc(filename) {
-        return (filename.startsWith('blob:') || filename.startsWith('data:'))
-            ? filename
-            : 'assets/img/' + filename;
-    }
-
     function updateBookConstraints() {
         const header = document.getElementById('header');
         const headerH = header ? header.offsetHeight : 0;
@@ -150,41 +205,75 @@ Last update: May. 18. 2026<br>
         const bottomH = 100;
         const availH = window.innerHeight - bodyMarginTop - headerH - bodyMarginBottom - bottomH;
         const availW = Math.floor((window.innerWidth - bodyMarginTop * 2 - 4) / 2);
-        document.documentElement.style.setProperty('--img-max-h', Math.max(80, availH) + 'px');
-        document.documentElement.style.setProperty('--img-max-w', Math.max(80, availW) + 'px');
+        const clampedH = Math.max(80, availH);
+        const clampedW = Math.max(80, availW);
+        document.documentElement.style.setProperty('--img-max-h', clampedH + 'px');
+        document.documentElement.style.setProperty('--img-max-w', clampedW + 'px');
+        primeCanvasFrame();
     }
 
-    let currentSpread = 0;
+    let currentPageIndex = 0;
 
-    function showSpread(index) {
+    function totalPages() {
+        return REGULAR_PAGES + uploadedImages.length;
+    }
+
+    function showPage(pageIndex) {
+        const spread = document.getElementById('spread');
+        const uploadedSpread = document.getElementById('uploaded-spread');
         const leftImg = document.getElementById('left-img');
         const rightImg = document.getElementById('right-img');
-        leftImg.src = imgSrc(images[index]);
-        if (index + 1 < images.length) {
-            rightImg.src = imgSrc(images[index + 1]);
-            rightImg.style.visibility = '';
+        const singleSpread = document.getElementById('single-spread');
+        const singleImg = document.getElementById('single-img');
+        const uploadedImg = document.getElementById('uploaded-img');
+
+        if (pageIndex < REGULAR_PAGES) {
+            uploadedSpread.style.display = 'none';
+            const s = regularSpreads[pageIndex];
+            if (s.type === 'pair') {
+                singleSpread.style.display = 'none';
+                spread.style.display = 'flex';
+                leftImg.src = imgSrc(s.left);
+                rightImg.src = imgSrc(s.right);
+            } else {
+                spread.style.display = 'none';
+                singleSpread.style.display = 'block';
+                singleImg.src = imgSrc(s.img);
+            }
         } else {
-            rightImg.style.visibility = 'hidden';
+            spread.style.display = 'none';
+            singleSpread.style.display = 'none';
+            uploadedSpread.style.display = 'block';
+            uploadedImg.src = uploadedImages[pageIndex - REGULAR_PAGES];
         }
-        currentSpread = index;
+        currentPageIndex = pageIndex;
     }
 
-    document.getElementById('left-img').addEventListener('click', (e) => {
-        e.stopPropagation();
-        const prev = currentSpread - 2;
-        showSpread(prev < 0 ? (images.length % 2 === 0 ? images.length - 2 : images.length - 1) : prev);
+    document.getElementById('book').addEventListener('click', (e) => {
+        if (e.clientX < window.innerWidth / 2) {
+            const prev = currentPageIndex - 1;
+            showPage(prev < 0 ? totalPages() - 1 : prev);
+        } else {
+            const next = currentPageIndex + 1;
+            showPage(next >= totalPages() ? 0 : next);
+        }
     });
 
-    document.getElementById('book').addEventListener('click', () => {
-        const next = currentSpread + 2;
-        showSpread(next >= images.length ? 0 : next);
-    });
+    // Exact live sync: whenever spread images actually render, match the uploaded frame to them
+    new ResizeObserver(function () {
+        var w = document.getElementById('spread').offsetWidth;
+        if (w > 0) {
+            document.documentElement.style.setProperty('--uploaded-w', w + 'px');
+            document.documentElement.style.setProperty('--uploaded-h', Math.floor(w * 2 / 3) + 'px');
+        }
+    }).observe(document.getElementById('spread'));
 
     window.addEventListener('resize', updateBookConstraints);
     updateBookConstraints();
-    showSpread(0);
+    showPage(0);
 
 </script>
+
 
 </body>
 </html>

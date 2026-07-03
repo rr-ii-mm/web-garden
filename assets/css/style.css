@@ -13,6 +13,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    paint-order: stroke fill;
 }
 
 body {
@@ -21,8 +22,8 @@ body {
     width: calc(100vw - var(--mg) * 2);
     /* max-width: 1920px; */
     min-height: calc(100vh - var(--mg) * 2);
-    font-family: "Pretendard Variable", "Apple SD Gothic Neo", sans-serif;
-    font-weight: 200;
+    font-family: "Pretendard Variable";
+    font-weight: 100;
     word-break: keep-all;
     font-size: clamp(16px, 8vw, 44px);
     text-align: center;
@@ -38,11 +39,22 @@ body {
 #book {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 100%;
     cursor: pointer;
     padding-bottom: 90px;
+}
+
+#book::before,
+#book::after {
+    content: '';
+    flex: 1;
+}
+
+@media (max-width: 680px) {
+    #book::before { flex: 6; }
+    #book::after  { flex: 4; }
 }
 
 #spread {
@@ -85,6 +97,7 @@ body {
     margin-top: 0.6em;
     line-height: 0.8;
     -webkit-text-stroke: 0.085em black;
+    transform: skewX(-10deg);
 }
 
 .secondary {
@@ -106,6 +119,10 @@ body {
     text-align: center;
 }
 
+a {
+    color: inherit;
+}
+
 a:hover {
     transform: skewX(-10deg);
 }
@@ -122,6 +139,38 @@ img:hover {
     aspect-ratio: auto;
 }
 
+#single-spread {
+    display: none;
+    width: var(--uploaded-w, 90vw);
+    height: var(--uploaded-h, 60vh);
+}
+
+#single-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: auto;
+    object-fit: cover;
+}
+
+#uploaded-spread {
+    display: none;
+    width: var(--uploaded-w, 90vw);
+    height: var(--uploaded-h, 60vh);
+}
+
+#uploaded-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: auto;
+    object-fit: cover;
+}
+
 #share {
     cursor: pointer;
 }
@@ -135,6 +184,91 @@ img:hover {
 @media (max-width: 680px) {
     .title-line {
         display: block;
+    }
+}
+
+/* Desktop: Chrome does not honor stroke-linejoin on HTML text with -webkit-text-stroke.
+   Replace with 16-direction text-shadow ring, which is inherently rounded. */
+@media (min-width: 681px) {
+    body {
+        -webkit-text-stroke: 0;
+        text-shadow:
+             0.054em  0       black,  -0.054em  0       black,
+             0        0.054em black,   0       -0.054em  black,
+             0.039em  0.039em black, -0.039em  0.039em black,
+             0.039em -0.039em black, -0.039em -0.039em black,
+             0.050em  0.021em black, -0.050em  0.021em black,
+             0.050em -0.021em black, -0.050em -0.021em black,
+             0.021em  0.050em black, -0.021em  0.050em black,
+             0.021em -0.050em black, -0.021em -0.050em black;
+    }
+    .interaction {
+        -webkit-text-stroke: 0;
+        text-shadow:
+             0.039em  0       black,  -0.039em  0       black,
+             0        0.039em black,   0       -0.039em  black,
+             0.027em  0.027em black, -0.027em  0.027em black,
+             0.027em -0.027em black, -0.027em -0.027em black,
+             0.036em  0.015em black, -0.036em  0.015em black,
+             0.036em -0.015em black, -0.036em -0.015em black,
+             0.015em  0.036em black, -0.015em  0.036em black,
+             0.015em -0.036em black, -0.015em -0.036em black;
+    }
+    .secondary {
+        -webkit-text-stroke: 0;
+        text-shadow:
+             0.036em  0       black,  -0.036em  0       black,
+             0        0.036em black,   0       -0.036em  black,
+             0.026em  0.026em black, -0.026em  0.026em black,
+             0.026em -0.026em black, -0.026em -0.026em black,
+             0.033em  0.014em black, -0.033em  0.014em black,
+             0.033em -0.014em black, -0.033em -0.014em black,
+             0.014em  0.033em black, -0.014em  0.033em black,
+             0.014em -0.033em black, -0.014em -0.033em black;
+    }
+    #last-update {
+        -webkit-text-stroke: 0;
+        text-shadow:
+             0.036em  0       black,  -0.036em  0       black,
+             0        0.036em black,   0       -0.036em  black,
+             0.026em  0.026em black, -0.026em  0.026em black,
+             0.026em -0.026em black, -0.026em -0.026em black,
+             0.033em  0.014em black, -0.033em  0.014em black,
+             0.033em -0.014em black, -0.033em -0.014em black,
+             0.014em  0.033em black, -0.014em  0.033em black,
+             0.014em -0.033em black, -0.014em -0.033em black;
+    }
+    #share u {
+        text-decoration: underline;
+        text-underline-offset: 0.12em;
+        text-decoration-thickness: 0.5px;
+        text-shadow: none;
+    }
+    #share u span {
+        text-shadow:
+             0.039em  0       black,  -0.039em  0       black,
+             0        0.039em black,   0       -0.039em  black,
+             0.027em  0.027em black, -0.027em  0.027em black,
+             0.027em -0.027em black, -0.027em -0.027em black,
+             0.036em  0.015em black, -0.036em  0.015em black,
+             0.036em -0.015em black, -0.036em -0.015em black,
+             0.015em  0.036em black, -0.015em  0.036em black,
+             0.015em -0.036em black, -0.015em -0.036em black;
+    }
+    #share:hover,
+    #share:active {
+        text-shadow:
+             0.039em  0       rgb(195,195,195), -0.039em  0       rgb(195,195,195),
+             0        0.039em rgb(195,195,195),  0       -0.039em  rgb(195,195,195),
+             0.027em  0.027em rgb(195,195,195), -0.027em  0.027em rgb(195,195,195),
+             0.027em -0.027em rgb(195,195,195), -0.027em -0.027em rgb(195,195,195),
+             0.036em  0.015em rgb(195,195,195), -0.036em  0.015em rgb(195,195,195),
+             0.036em -0.015em rgb(195,195,195), -0.036em -0.015em rgb(195,195,195),
+             0.015em  0.036em rgb(195,195,195), -0.015em  0.036em rgb(195,195,195),
+             0.015em -0.036em rgb(195,195,195), -0.015em -0.036em rgb(195,195,195);
+    }
+    img {
+        text-shadow: none;
     }
 }
 
